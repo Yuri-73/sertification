@@ -55,15 +55,18 @@ class FiltrationGroundTimeMoreThanTwoHoursTest {
         segments4.add(segment5);
         flight4 = new Flight(segments4); //для фильтра-3: рейс с наземным временем простоя более двух часов
 
+        //Заполнение списка всех перелётов:
         flights.add(flight1);
         flights.add(flight2);
         flights.add(flight3);
         flights.add(flight4);
 
+        //Тестовое заполнение результата после фильтра-1:
         flights1.add(flight1);
         flights1.add(flight3);
         flights1.add(flight4);
 
+        //Тестовое заполнение результата после фильтра-2:
         flights2.add(flight1);
         flights2.add(flight2);
         flights2.add(flight4);
@@ -73,6 +76,7 @@ class FiltrationGroundTimeMoreThanTwoHoursTest {
     @Test
     void filter() {
         //test:
+        //Тестовое заполнение результата после фильтра-3:
         flights3.add(flight1);
         flights3.add(flight2);
         flights3.add(flight3);
