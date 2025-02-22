@@ -19,20 +19,29 @@ public class Main {
         List<List<Flight>> filteredFlights = Filter.flightsFilter(flights, filters);
 
         int count = 0;
-        for (List<Flight> f:filteredFlights) {
+        for (List<Flight> filter:filteredFlights) {
 
             count++;
             if (count == 1) {
+                System.out.println();
                 System.out.println("Отфильтровка перелётов до текущего момента времени: ");
             }
             if (count == 2) {
+                System.out.println();
                 System.out.println("Отфильтровка перелётов с датой прилёта раньше даты вылета: ");
             }
             if (count == 3) {
+                System.out.println();
                 System.out.println("Отфильтровка перелетов, где общее время, проведённое на земле, превышает два часа: ");
             }
-            System.out.println(f.toString());
+            System.out.println(filter.toString());
         }
+        System.out.println();
+        System.out.println("Последовательная тройная фильтрация одного и того же списка: ");
+        List<List<Flight>> filteredFlights1_2 = Filter.flightsFilter(filteredFlights.get(0), filters);
+        List<List<Flight>> filteredFlights1_2_3 = Filter.flightsFilter(filteredFlights1_2.get(1), filters);
+        System.out.println(filteredFlights1_2_3.get(2));
+
     }
 
     private static List<FlightFilter> getFilterList() {
