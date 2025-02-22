@@ -1,5 +1,7 @@
-package com.gridnine.testing;
+package com.gridnine.testing.Test_for_certification;
 
+import com.gridnine.testing.Filter;
+import com.gridnine.testing.FlightFilter;
 import com.gridnine.testing.filters.impl.FiltrationDepartureBeforeCurrentTime;
 import com.gridnine.testing.filters.impl.FiltrationGroundTimeMoreThanTwoHours;
 import com.gridnine.testing.filters.impl.FiltrationSegmentsWithArrivalDateEarlierDepartureDate;

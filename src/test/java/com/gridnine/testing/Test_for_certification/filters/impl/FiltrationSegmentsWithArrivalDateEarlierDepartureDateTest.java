@@ -1,5 +1,6 @@
-package com.gridnine.testing.filters.impl;
+package com.gridnine.testing.Test_for_certification.filters.impl;
 
+import com.gridnine.testing.filters.impl.FiltrationSegmentsWithArrivalDateEarlierDepartureDate;
 import com.gridnine.testing.model.Flight;
 import com.gridnine.testing.model.Segment;
 import org.junit.jupiter.api.BeforeEach;
