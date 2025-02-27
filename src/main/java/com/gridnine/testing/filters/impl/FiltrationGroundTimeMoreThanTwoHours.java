@@ -23,7 +23,7 @@ public class FiltrationGroundTimeMoreThanTwoHours implements FlightFilter {
     @Override
     public List<Flight> filter(List<Flight> flights) {
         return flights.stream()
-                .filter(flight -> calculateGroundTime(flight.getSegments()) <= 2)
+                .filter(flight -> calculateGroundTime(flight.getSegments()) <= 120) //Перевёл 2 часа в минуты
                 .collect(Collectors.toList());
     }
 
@@ -32,7 +32,8 @@ public class FiltrationGroundTimeMoreThanTwoHours implements FlightFilter {
         for (int i = 1; i < segments.size(); i++) {
             LocalDateTime arrivalDate = segments.get(i - 1).getArrivalDate();
             LocalDateTime departureDate = segments.get(i).getDepartureDate();
-            groundTime += (int) Duration.between(arrivalDate, departureDate).toHours();
+            //Высчитываю минуты, а не часы, по замечанию Бизина - это практичнее:
+            groundTime += (int) Duration.between(arrivalDate, departureDate).toMinutes();
         }
         return groundTime;
     }
