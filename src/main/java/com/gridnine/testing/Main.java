@@ -8,6 +8,7 @@ import com.gridnine.testing.util.FlightBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,7 +20,7 @@ public class Main {
         List<List<Flight>> filteredFlights = Filter.flightsFilter(flights, filters);
 
         int count = 0;
-        for (List<Flight> filter:filteredFlights) {
+        for (List<Flight> filter : filteredFlights) {
 
             count++;
             if (count == 1) {
@@ -36,12 +37,49 @@ public class Main {
             }
             System.out.println(filter.toString());
         }
-        System.out.println();
-        System.out.println("Последовательная тройная фильтрация одного и того же списка: ");
-        List<List<Flight>> filteredFlights1_2 = Filter.flightsFilter(filteredFlights.get(0), filters);
-        List<List<Flight>> filteredFlights1_2_3 = Filter.flightsFilter(filteredFlights1_2.get(1), filters);
-        System.out.println(filteredFlights1_2_3.get(2));
 
+        List<Flight> flightAnyList1 = scanFilter(flights, filters);
+        List<Flight> flightAnyList2 = scanFilter2(flightAnyList1, filters);
+        List<Flight> flightAnyList3 = scanFilter2(flightAnyList2, filters);
+
+    }
+
+    private static List<Flight> scanFilter(List<Flight> flights, List<FlightFilter> filters) {
+        Scanner scanner = new Scanner(System.in);
+        int number = -1;
+        if (scanner.hasNextInt()) {
+            number = scanner.nextInt();
+            System.out.println("Введен фильтр № " + number);
+        } else {
+            System.out.println("Это не число!");
+        }
+
+        List<Flight> filteredFlight = new ArrayList<>();
+        if (number >= 0 && number <= 2) {
+            filteredFlight = Filter.flightsFilter(flights, filters.get(number));
+        } else {
+            System.out.println("Значения 0 - 3 не введены");
+        }
+        System.out.println("filteredFlight = " + filteredFlight);
+        return filteredFlight;
+    }
+
+    private static List<Flight> scanFilter2(List<Flight> flights, List<FlightFilter> filters) {
+        List<Flight> filteredFlight = new ArrayList<>();
+        Scanner scanner2 = new Scanner(System.in);
+        String str;
+        if (scanner2.hasNext()) {
+            str = scanner2.next();
+            if (str.equals("+")) {
+                System.out.println("Теперь введите номер фильтра");
+                filteredFlight = scanFilter(flights, filters);
+            } else {
+                System.out.println("Это не знак [+]! Ввести правильно!");
+            }
+        } else {
+            System.out.println("Это не строка!");
+        }
+        return filteredFlight;
     }
 
     private static List<FlightFilter> getFilterList() {
@@ -60,6 +98,5 @@ public class Main {
         return filters;
     }
 }
-
 
 

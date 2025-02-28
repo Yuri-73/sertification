@@ -23,4 +23,10 @@ public class Filter {
         }
         return filteredFlights ;
     }
+
+    public static List<Flight> flightsFilter(List<Flight> flights, FlightFilter flightFilter) {
+        List<Flight> filteredFlights  = flightFilter.filter(flights); //Список трёх отфильтрованных списков для результата
+        return filteredFlights;
+    }
+
 }
