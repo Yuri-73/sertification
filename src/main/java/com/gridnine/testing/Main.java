@@ -38,48 +38,51 @@ public class Main {
             System.out.println(filter.toString());
         }
 
-        List<Flight> flightAnyList1 = scanFilter(flights, filters);
-        List<Flight> flightAnyList2 = scanFilter2(flightAnyList1, filters);
-        List<Flight> flightAnyList3 = scanFilter2(flightAnyList2, filters);
-
-    }
-
-    private static List<Flight> scanFilter(List<Flight> flights, List<FlightFilter> filters) {
         Scanner scanner = new Scanner(System.in);
         int number = -1;
-        if (scanner.hasNextInt()) {
-            number = scanner.nextInt();
-            System.out.println("Введен фильтр № " + number);
-        } else {
-            System.out.println("Это не число!");
+        while (scanner.hasNextInt()) {
+            scanFilter(flights, filters, number, scanner);
         }
-
-        List<Flight> filteredFlight = new ArrayList<>();
-        if (number >= 0 && number <= 2) {
-            filteredFlight = Filter.flightsFilter(flights, filters.get(number));
-        } else {
-            System.out.println("Значения 0 - 3 не введены");
-        }
-        System.out.println("filteredFlight = " + filteredFlight);
-        return filteredFlight;
     }
 
-    private static List<Flight> scanFilter2(List<Flight> flights, List<FlightFilter> filters) {
+    private static void scanFilter(List<Flight> flights, List<FlightFilter> filters, Integer number, Scanner scanner) {
+        int number1;
+        int number2;
+        int number3;
         List<Flight> filteredFlight = new ArrayList<>();
-        Scanner scanner2 = new Scanner(System.in);
-        String str;
-        if (scanner2.hasNext()) {
-            str = scanner2.next();
-            if (str.equals("+")) {
-                System.out.println("Теперь введите номер фильтра");
-                filteredFlight = scanFilter(flights, filters);
-            } else {
-                System.out.println("Это не знак [+]! Ввести правильно!");
+
+        if (scanner.hasNextInt()) {
+            number = scanner.nextInt();
+            if (number >= 1 && number <= 3) {
+                filteredFlight = Filter.flightsFilter(flights, filters.get(number - 1));
+                System.out.println("Введен фильтр № " + number);
+                System.out.println("filteredFlight = " + filteredFlight);
+            }
+            if (number > 10 && number <= 32) {
+                number1 = number / 10;
+                filteredFlight = Filter.flightsFilter(flights, filters.get(number1 - 1));
+
+                number2 = number % 10;
+                filteredFlight = Filter.flightsFilter(filteredFlight, filters.get(number2 - 1));
+                System.out.println("Введен фильтр № " + number);
+                System.out.println("filteredFlight = " + filteredFlight);
+
+            }
+            if (number > 100 && number <= 321) {
+                number1 = number / 100;
+                filteredFlight = Filter.flightsFilter(flights, filters.get(number1 - 1));
+
+                number2 = (number / 10) % 10;
+                filteredFlight = Filter.flightsFilter(filteredFlight, filters.get(number2 - 1));
+
+                number3 = number % 10;
+                filteredFlight = Filter.flightsFilter(filteredFlight, filters.get(number3 - 1));
+                System.out.println("Введен фильтр № " + number);
+                System.out.println("filteredFlight = " + filteredFlight);
             }
         } else {
-            System.out.println("Это не строка!");
+            System.out.println("Это не число или число, не входящее в диапазон [1, 2, 3]");
         }
-        return filteredFlight;
     }
 
     private static List<FlightFilter> getFilterList() {
