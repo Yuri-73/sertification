@@ -100,20 +100,71 @@ class FilterTest {
     }
 
     @Test
-    void flightsFilter() {
+    void flightsFilter_All_Test() {
         //test:
         Mockito.when(filtrationDepartureBeforeCurrentTime.filter(flights)).thenReturn(flights1); //Заглушка вместо реализатора-фильтра-1
         Mockito.when(segmentsWithArrivalDateEarlierDepartureDate.filter(flights)).thenReturn(flights2); //Заглушка вместо реализатора-фильтра-2
         Mockito.when(groundTimeMoreThanTwoHoursFilter.filter(any())).thenReturn(flights3); //Заглушка вместо реализатора-фильтра-3
 
-        //То, что мы должны получить в результате:
+        //То, что мы должны получить в результате (в этой ветке в классе main Лист листов решил не выводить,
+        // т.к. вывожу профильтрованные перелёты динамически):
         List<List<Flight>> resultList = new ArrayList<>();
-        resultList.add(flights1);
-        resultList.add(flights2);
-        resultList.add(flights3);
+        resultList.add(flights1);  //Тестовый результат перелётов после фильтрации-1 вносим как элемент-лист в Лист 3-х фильтраций
+        resultList.add(flights2);  //Тестовый результат перелётов после фильтрации-2 вносим как элемент-лист в Лист 3-х фильтраций
+        resultList.add(flights3);  //Тестовый результат перелётов после фильтрации-3 вносим как элемент-лист в Лист 3-х фильтраций
 
         //check
         assertEquals(out.flightsFilter(flights, flightFilters), resultList);
         assertEquals(resultList.size(), 3);  //3 фильтрации
     }
+
+    //Тестирование перегруженного метода flightsFilter (сделан для динамической логики)
+    @Test
+    void flightsFilter1_Test() {
+        //test:
+        Mockito.when(filtrationDepartureBeforeCurrentTime.filter(flights)).thenReturn(flights1); //Заглушка вместо реализатора-фильтра-1
+//        Mockito.when(segmentsWithArrivalDateEarlierDepartureDate.filter(flights)).thenReturn(flights2); //Заглушка вместо реализатора-фильтра-2
+//        Mockito.when(groundTimeMoreThanTwoHoursFilter.filter(any())).thenReturn(flights3); //Заглушка вместо реализатора-фильтра-3
+
+        //То, что мы должны получить в результате (в этой ветке в классе main Лист листов решил не выводить,
+        // т.к. вывожу профильтрованные перелёты динамически):
+        List<Flight> resultList = flights1;
+
+        //check
+        assertEquals(out.flightsFilter(flights, filtrationDepartureBeforeCurrentTime), resultList);
+        assertEquals(resultList.size(), 3);  //3 фильтрации
+    }
+
+    @Test
+    void flightsFilter2_Test() {
+        //test:
+//        Mockito.when(filtrationDepartureBeforeCurrentTime.filter(flights)).thenReturn(flights1); //Заглушка вместо реализатора-фильтра-1
+        Mockito.when(segmentsWithArrivalDateEarlierDepartureDate.filter(flights)).thenReturn(flights2); //Заглушка вместо реализатора-фильтра-2
+//        Mockito.when(groundTimeMoreThanTwoHoursFilter.filter(any())).thenReturn(flights3); //Заглушка вместо реализатора-фильтра-3
+
+        //То, что мы должны получить в результате (в этой ветке в классе main Лист листов решил не выводить,
+        // т.к. вывожу профильтрованные перелёты динамически):
+        List<Flight> resultList = flights2;
+
+        //check
+        assertEquals(out.flightsFilter(flights, segmentsWithArrivalDateEarlierDepartureDate), resultList);
+        assertEquals(resultList.size(), 3);  //3 фильтрации
+    }
+
+    @Test
+    void flightsFilter3_Test() {
+        //test:
+//        Mockito.when(filtrationDepartureBeforeCurrentTime.filter(flights)).thenReturn(flights1); //Заглушка вместо реализатора-фильтра-1
+//        Mockito.when(segmentsWithArrivalDateEarlierDepartureDate.filter(flights)).thenReturn(flights2); //Заглушка вместо реализатора-фильтра-2
+        Mockito.when(groundTimeMoreThanTwoHoursFilter.filter(any())).thenReturn(flights3); //Заглушка вместо реализатора-фильтра-3
+
+        //То, что мы должны получить в результате (в этой ветке в классе main Лист листов решил не выводить,
+        // т.к. вывожу профильтрованные перелёты динамически):
+        List<Flight> resultList = flights3;
+
+        //check
+        assertEquals(out.flightsFilter(flights, groundTimeMoreThanTwoHoursFilter), resultList);
+        assertEquals(resultList.size(), 3);  //3 фильтрации
+    }
 }
+
