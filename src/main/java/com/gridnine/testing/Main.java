@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        List<FlightFilter> filters = getFilterList();
+        List<FlightFilter> filters = getFilterList(); //Создание полиморфического Листа
 
         List<Flight> flights = FlightBuilder.createFlights();  //Получение общего списка перелётов через статический метод
 
@@ -20,11 +20,15 @@ public class Main {
         List<List<Flight>> filteredFlights = Filter.flightsFilter(flights, filters); //В этой ветке не используется
 
         Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNextInt()) {
-            scanFilter(flights, filters, scanner);
+        while (scanner.hasNextInt()) {  //Создание бесконечного цикла, пока вводим числовые символы.
+            // Если ввести нечисловые, то система закончит работу и надо будет её перезапускать.
+            scanFilter(flights, filters, scanner); //Корневая логика последовательной фильтрации
         }
     }
 
+    //Логика задания последовательности фильтров над одним общим списком перелётов. 0 - это общий список.
+    // Его нельзя вставлять в середину и в конец, чтобы не нарушить логику (она завязана на сумме чисел и правильно работать не сможет.
+    // В начало можно, но бесполезно, т.к., например, 02 будет работать, как 2. Поэтому применять 0 только отдельно.)
     private static void scanFilter(List<Flight> flights, List<FlightFilter> filters, Scanner scanner) {
         Integer number, number1, number2, number3;
         List<Flight> filteredFlight;
