@@ -45,6 +45,7 @@ class ScanFilterServiceTest {
     List<Flight> flights1 = new ArrayList<>(); //Для тестового результата перелётов после фильтрации-1
     List<Flight> flights2 = new ArrayList<>(); //Для тестового результата перелётов после фильтрации-2
     List<Flight> flights3 = new ArrayList<>(); //Для тестового результата перелётов после фильтрации-3
+    List<Flight> flights4 = new ArrayList<>(); //Для тестового результата перелётов после всех трёх фильтраций последовательно
 
     List<FlightFilter> flightFilters = new ArrayList<>();  //Лист полиморфизма
 
@@ -97,6 +98,9 @@ class ScanFilterServiceTest {
         flights3.add(flight2);
         flights3.add(flight3);
 
+        //Тестовый результат перелётов после 3-х фильтраций последовательно:
+        flights4.add(flight1);
+
         //Создание полиморфической коллекции с моками вместо реализаторов-фильтров:
         flightFilters.add(filtrationDepartureBeforeCurrentTime);
         flightFilters.add(segmentsWithArrivalDateEarlierDepartureDate);
@@ -144,6 +148,17 @@ class ScanFilterServiceTest {
         //check:
         assertEquals(result, flights);
         assertEquals(result.size(), 4);
+    }
+
+    @Test
+    void scanFilter123_test() {
+        //initial conditions:
+        Integer number = 123;
+        //test
+        List<Flight> result = ScanFilterService.scanFilter(flights, flightFilters, number);
+        //check:
+        assertEquals(result, flights4);
+        assertEquals(result.size(), 1);
     }
 }
 
