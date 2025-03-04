@@ -27,9 +27,9 @@ class FilterTest {
     @Mock
     private FiltrationDepartureBeforeCurrentTime filtrationDepartureBeforeCurrentTime;
     @Mock
-    private FiltrationDepartureBeforeCurrentTime segmentsWithArrivalDateEarlierDepartureDate;
+    private FiltrationSegmentsWithArrivalDateEarlierDepartureDate segmentsWithArrivalDateEarlierDepartureDate;
     @Mock
-    private FiltrationDepartureBeforeCurrentTime groundTimeMoreThanTwoHoursFilter;
+    private FiltrationGroundTimeMoreThanTwoHours groundTimeMoreThanTwoHoursFilter;
 
     private Filter out;
 

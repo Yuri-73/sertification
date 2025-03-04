@@ -25,7 +25,7 @@ public class Filter {
     }
 
     public static List<Flight> flightsFilter(List<Flight> flights, FlightFilter flightFilter) {
-        List<Flight> filteredFlights  = flightFilter.filter(flights); //Список трёх отфильтрованных списков для результата
+        List<Flight> filteredFlights  = flightFilter.filter(flights); //Отфильтрованный список как результат
         return filteredFlights;
     }
 

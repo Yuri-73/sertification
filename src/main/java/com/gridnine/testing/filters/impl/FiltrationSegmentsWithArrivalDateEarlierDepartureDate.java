@@ -21,7 +21,7 @@ public class FiltrationSegmentsWithArrivalDateEarlierDepartureDate implements Fl
         return flights.stream()
                 .filter(flight -> flight.getSegments()
                         .stream()
-                        .allMatch(segment -> segment.getArrivalDate().isAfter(segment.getDepartureDate())))
+                        .anyMatch(segment -> segment.getArrivalDate().isAfter(segment.getDepartureDate())))
                 .collect(Collectors.toList());
     }
 }

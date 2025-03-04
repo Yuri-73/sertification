@@ -3,6 +3,8 @@ package com.gridnine.testing.util;
 import com.gridnine.testing.Filter;
 import com.gridnine.testing.FlightFilter;
 import com.gridnine.testing.filters.impl.FiltrationDepartureBeforeCurrentTime;
+import com.gridnine.testing.filters.impl.FiltrationGroundTimeMoreThanTwoHours;
+import com.gridnine.testing.filters.impl.FiltrationSegmentsWithArrivalDateEarlierDepartureDate;
 import com.gridnine.testing.model.Flight;
 import com.gridnine.testing.model.Segment;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.verification.VerificationMode;
+import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,25 +23,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 
 @ExtendWith(MockitoExtension.class)
 class ScanFilterServiceTest {
-    @Mock
-    private Scanner scanner;
-    @Mock
-    private FlightFilter flightFilter;
-
     @Spy
     private FiltrationDepartureBeforeCurrentTime filtrationDepartureBeforeCurrentTime;
     @Spy
-    private FiltrationDepartureBeforeCurrentTime segmentsWithArrivalDateEarlierDepartureDate;
+    private FiltrationSegmentsWithArrivalDateEarlierDepartureDate segmentsWithArrivalDateEarlierDepartureDate;
     @Spy
-    private FiltrationDepartureBeforeCurrentTime groundTimeMoreThanTwoHoursFilter;
-
-    private ScanFilterService out;
+    private FiltrationGroundTimeMoreThanTwoHours groundTimeMoreThanTwoHoursFilter;
 
     Flight flight1;
     Flight flight2;
@@ -53,6 +50,7 @@ class ScanFilterServiceTest {
 
     @BeforeEach
     void init() {
+
         LocalDateTime threeDaysFromNow = LocalDateTime.now().plusDays(3);
         Segment segment1 = new Segment(threeDaysFromNow, threeDaysFromNow.plusDays(2)); //сегмент для рейса, не требующего фильтрации
         Segment segment2 = new Segment(threeDaysFromNow.minusDays(6), threeDaysFromNow); //для фильтра-1:сегмент для рейса ранее текущей даты
@@ -105,17 +103,47 @@ class ScanFilterServiceTest {
         flightFilters.add(groundTimeMoreThanTwoHoursFilter);
     }
     @Test
-    void scanFilter() {
-        //test:
-        //test:
-//        Mockito.when(filtrationDepartureBeforeCurrentTime.filter(flights)).thenReturn(flights1); //Заглушка вместо реализатора-фильтра-1
-//        Mockito.when(segmentsWithArrivalDateEarlierDepartureDate.filter(flights)).thenReturn(flights2); //Заглушка вместо реализатора-фильтра-2
-//        Mockito.when(groundTimeMoreThanTwoHoursFilter.filter(any())).thenReturn(flights3); //Заглушка вместо реализатора-фильтра-3
+    void scanFilter1_test() {
+        //initial conditions:
+        Integer number = 1;
+        //test
+        List<Flight> result = ScanFilterService.scanFilter(flights, flightFilters, number);
+        //check:
+        assertEquals(result, flights1);
+        assertEquals(result.size(), 3);  //3 фильтрации
+    }
 
-//        Mockito.when(scanner.nextInt()).thenReturn(1); //Заглушка
-//        Mockito.when(Filter.flightsFilter(anyList(), any(FlightFilter.class))).thenReturn(flights1); //Заглушка
+    @Test
+    void scanFilter2_test() {
+        //initial conditions:
+        Integer number = 2;
+        //test
+        List<Flight> result = ScanFilterService.scanFilter(flights, flightFilters, number);
+        //check:
+        assertEquals(result, flights2);
+        assertEquals(result.size(), 3);
+    }
 
-        //check
-//        ScanFilterService.scanFilter(flights, flightFilters, scanner);
+    @Test
+    void scanFilter3_test() {
+        //initial conditions:
+        Integer number = 3;
+        //test
+        List<Flight> result = ScanFilterService.scanFilter(flights, flightFilters, number);
+        //check:
+        assertEquals(result, flights3);
+        assertEquals(result.size(), 3);
+    }
+
+    @Test
+    void scanFilter0_test() {
+        //initial conditions:
+        Integer number = 0;
+        //test
+        List<Flight> result = ScanFilterService.scanFilter(flights, flightFilters, number);
+        //check:
+        assertEquals(result, flights);
+        assertEquals(result.size(), 4);
     }
 }
+

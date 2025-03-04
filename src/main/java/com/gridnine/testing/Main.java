@@ -24,8 +24,10 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextInt()) {  //Создание бесконечного цикла, пока вводим числовые символы.
             // Если ввести нечисловые, то система закончит работу и надо будет её перезапускать.
-            scanFilter(flights, filters, scanner); //Корневая логика последовательной фильтрации
+            Integer number = scanner.nextInt();
+            scanFilter(flights, filters, number); //Корневая логика последовательной фильтрации
         }
+        System.out.println("Программа завершилась, т.к. введен нечисловой символ");
     }
 
     private static List<FlightFilter> getFilterList() {
