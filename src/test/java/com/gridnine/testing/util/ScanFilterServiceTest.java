@@ -8,24 +8,17 @@ import com.gridnine.testing.filters.impl.FiltrationSegmentsWithArrivalDateEarlie
 import com.gridnine.testing.model.Flight;
 import com.gridnine.testing.model.Segment;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.verification.VerificationMode;
-import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 
 @ExtendWith(MockitoExtension.class)
 class ScanFilterServiceTest {
@@ -112,6 +105,7 @@ class ScanFilterServiceTest {
         flightFilters.add(groundTimeMoreThanTwoHoursFilter);
     }
     @Test
+    @DisplayName("Фильтрация перелётов с вылетом раньше текущего")
     void scanFilter1_test() {
         //initial conditions:
         Integer number = 1;
@@ -123,6 +117,7 @@ class ScanFilterServiceTest {
     }
 
     @Test
+    @DisplayName("Фильтрация перелётов с вылетом позже прилёта")
     void scanFilter2_test() {
         //initial conditions:
         Integer number = 2;
@@ -134,6 +129,7 @@ class ScanFilterServiceTest {
     }
 
     @Test
+    @DisplayName("Фильтрация перелётов с общем временем на земле более 120 минут")
     void scanFilter3_test() {
         //initial conditions:
         Integer number = 3;
@@ -145,6 +141,7 @@ class ScanFilterServiceTest {
     }
 
     @Test
+    @DisplayName("Список перелётов без фильтрации")
     void scanFilter0_test() {
         //initial conditions:
         Integer number = 0;
@@ -156,6 +153,7 @@ class ScanFilterServiceTest {
     }
 
     @Test
+    @DisplayName("Последовательная фильтрация перелётов с вылетом раньше текущего и вылетом позже прилёта")
     void scanFilter12_test() {
         //initial conditions:
         Integer number = 12;
@@ -167,6 +165,7 @@ class ScanFilterServiceTest {
     }
 
     @Test
+    @DisplayName("Последовательная фильтрация перелётов с вылетом раньше текущего, вылетом позже прилёта и общим временем на земле долее 120 минут")
     void scanFilter123_test() {
         //initial conditions:
         Integer number = 123;
